@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+/* Enable class-based dark mode for Tailwind v4 */
+@variant dark (&:where(.dark, .dark *));
+
+/* Crisis Recovery Palette - "Newsroom Grey" + "Signal Colors" */
+@theme {
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: 'Merriweather', Georgia, serif;
+  --font-mono: 'Roboto Mono', 'Courier New', monospace;
+
+  /* Backgrounds */
+  --color-surface: #F9FAFB;
+  --color-surface-dark: #111827;
+  --color-card: #FFFFFF;
+  --color-card-dark: #1F2937;
+
+  /* Text */
+  --color-charcoal: #1F2937;
+  --color-muted: #6B7280;
+  --color-muted-dark: #9CA3AF;
+
+  /* Action Colors */
+  --color-commerce: #F97316;
+  --color-commerce-hover: #EA580C;
+  --color-relief: #991B1B;
+  --color-relief-hover: #7F1D1D;
+  --color-alert: #F59E0B;
+  --color-alert-hover: #D97706;
+
+  /* Status Colors */
+  --color-status-verified: #16A34A;
+  --color-status-pending: #EAB308;
+  --color-status-danger: #DC2626;
+
+  /* Legacy support */
+  --color-primary-600: #F97316;
+  --color-primary-700: #EA580C;
+}
+
+/* Google Fonts - Editorial & Modern */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;400;600;700;900&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* Crisis Recovery Palette - "Restored Dignity" (Editorial) */
+@theme {
+  --font-sans: 'Outfit', sans-serif;
+  --font-serif: 'Fraunces', serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  /* Backgrounds */
+  --color-surface: #F4F3F1; /* Warm Paper */
+  --color-surface-dark: #121212; /* Deep Void */
+  --color-card: #FFFFFF;
+  --color-card-dark: #1C1C1C;
+  
+  /* Text */
+  --color-charcoal: #111111;
+  --color-muted: #666666;
+  --color-muted-dark: #A3A3A3;
+  
+  /* Action Colors - High Contrast */
+  --color-commerce: #FF5A1F; /* Vivid Orange */
+  --color-commerce-hover: #E04810;
+  --color-relief: #B91C1C; /* Blood Red */
+  --color-relief-hover: #991B1B;
+  --color-alert: #D97706; /* Amber Warning */
+  --color-alert-hover: #B45309;
+  
+  /* Status Colors */
+  --color-status-verified: #15803D;
+  --color-status-pending: #CA8A04;
+  --color-status-danger: #DC2626;
+
+    /* Legacy support */
+  --color-primary-600: #FF5A1F;
+  --color-primary-700: #E04810;
+}
+
+/* Base styles */
+@layer base {
+  body {
+    @apply bg-surface text-charcoal dark:bg-surface-dark dark:text-gray-100 transition-colors duration-200;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    font-variation-settings: "SOFT" 50, "WONK" 0;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Utility classes for Soft/Human Design */
+@layer components {
+  /* Soft Gradient Overlay */
+  .grain-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+  }
+
+  /* Soft Card Style */
+  .card-soft {
+    @apply bg-white dark:bg-zinc-900 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 dark:border-gray-800 transition-all duration-500 ease-out;
+  }
+
+  .card-soft:hover {
+     @apply shadow-[0_8px_30px_rgb(0,0,0,0.12)] -translate-y-1 transform;
+  }
+
+  /* Soft Buttons */
+  .btn-primary {
+    @apply bg-charcoal text-white font-serif font-medium px-8 py-4 rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 tracking-wide text-sm;
+  }
+
+  .btn-secondary {
+    @apply bg-white text-charcoal font-serif font-medium px-8 py-4 rounded-full border border-gray-200 hover:border-gray-400 hover:bg-gray-50 transition-all duration-300 tracking-wide text-sm;
+  }
+
+  /* Soft Status Pills */
+  .status-pill {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-[10px] uppercase font-bold tracking-widest font-mono shadow-sm;
+  }
+  
+  .status-verified {
+    @apply bg-green-50 text-green-700 border border-green-100 dark:bg-green-900/20 dark:text-green-300 dark:border-green-800/30;
+  }
+  
+  .status-pending {
+    @apply bg-amber-50 text-amber-700 border border-amber-100 dark:bg-amber-900/20 dark:text-amber-300 dark:border-amber-800/30;
+  }
+  
+  .status-deceased {
+    @apply bg-gray-100 text-gray-600 border border-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700;
+  }
+  
+  .status-severe {
+    @apply bg-rose-50 text-rose-700 border border-rose-100 dark:bg-rose-900/20 dark:text-rose-300 dark:border-rose-800/30;
+  }
+  
+  .mono {
+    font-family: var(--font-mono);
+  }
+}
