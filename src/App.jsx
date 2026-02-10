@@ -9,6 +9,7 @@ import AdminDashboard from './pages/admin';
 import Logout from './components/logout';
 import Layout from './components/Layout';
 import { ToastContainer, Flip } from 'react-toastify';
+import './responsive.css';
 
 function App() {
   return (

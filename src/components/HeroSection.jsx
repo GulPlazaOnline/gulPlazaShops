@@ -28,7 +28,7 @@ const HeroSection = () => {
             {/* Main Hero Content - Bottom Aligned for Drama */}
             {/* Added pointer-events-none to container so it doesn't block the slider */}
             <div className="flex-1 flex flex-col justify-end px-6 md:px-12 pb-24 relative z-10 pointer-events-none">
-                <div className="max-w-5xl mx-auto w-full text-center md:text-left pointer-events-auto">
+                <div className="HeroSecDetail max-w-5xl mx-auto w-full text-center md:text-left pointer-events-auto">
                     {/* Location Badge */}
                     <div className="inline-flex items-center gap-3 mb-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
                         <div className="h-px w-12 bg-amber-500/50" />
@@ -41,14 +41,14 @@ const HeroSection = () => {
                     </h1>
 
                     {/* Context Paragraph */}
-                    <div className="flex flex-col md:flex-row items-end gap-12 border-t border-white/10 pt-8 mt-8 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500 fill-mode-forwards">
-                        <p className="max-w-xl text-lg md:text-xl text-white/80 font-light leading-relaxed">
+                    <div className="HeroSecBtnP flex flex-col md:flex-row items-end gap-12 border-t border-white/10 pt-8 mt-8 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500 fill-mode-forwards">
+                        <p className="heroSecP max-w-xl text-lg md:text-xl text-white/80 font-light leading-relaxed">
                             For decades, this was the heart of wholesale. <br />
                             <span className="text-white/60">On January 17, 2026, silence fell. Now, we rebuild together.</span>
                         </p>
 
                         {/* CTA Buttons */}
-                        <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
+                        <div className="HeroSecBtn flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
                             <button
                                 onClick={() => navigate('/directory')}
                                 className="w-full sm:w-auto px-8 py-4 bg-white text-charcoal font-serif text-lg rounded-full transition-all duration-500 hover:bg-amber-50 hover:scale-105 shadow-lg flex items-center justify-center gap-3 cursor-pointer"
