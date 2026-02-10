@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import supabase from '../supabase';
+import { auth } from '../firebase.js';
+import { onAuthStateChanged } from 'firebase/auth';
 import ThemeToggle from './ThemeToggle';
 import LogoutBtn from './logoutBtn';
 
@@ -11,8 +12,8 @@ const Layout = () => {
     const isHome = location.pathname === '/';
 
     useEffect(() => {
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-            setUser(session?.user ?? null);
+        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+            setUser(firebaseUser ?? null);
         });
 
         // Scroll listener for header
@@ -22,7 +23,7 @@ const Layout = () => {
         window.addEventListener('scroll', handleScroll);
 
         return () => {
-            subscription.unsubscribe();
+            unsubscribe();
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);
@@ -68,8 +69,8 @@ const Layout = () => {
                                 <Link
                                     to="/auth"
                                     className={`px-5 py-2.5 text-sm font-bold border rounded-full transition-all duration-300 ${isHome && !isScrolled
-                                            ? 'text-white border-white/30 hover:bg-white hover:text-charcoal'
-                                            : 'text-charcoal dark:text-white border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800'
+                                        ? 'text-white border-white/30 hover:bg-white hover:text-charcoal'
+                                        : 'text-charcoal dark:text-white border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800'
                                         }`}
                                 >
                                     Sign In
@@ -81,7 +82,6 @@ const Layout = () => {
             </header>
 
             {/* Main Content */}
-            {/* Added pt-20 only for non-home pages or ensuring home hero handles top-spacing */}
             <main className={`flex-grow w-full ${!isHome ? 'pt-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8' : ''}`}>
                 <Outlet />
             </main>

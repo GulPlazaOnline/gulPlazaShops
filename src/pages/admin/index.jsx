@@ -1,6 +1,7 @@
 // src/pages/admin/index.jsx
 import { useState, useEffect } from 'react';
-import supabase from '../../supabase';
+import { db } from '../../firebase.js';
+import { collection, getDocs, doc, updateDoc, query, orderBy } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,20 +14,17 @@ const AdminDashboard = () => {
     // Fetch all shops
     const fetchShops = async () => {
         setLoading(true);
-        const { data, error } = await supabase
-            .from('shops')
-            .select('*')
-            .order('created_at', { ascending: false });
-
-        if (error) {
+        try {
+            const q = query(collection(db, 'shops'), orderBy('created_at', 'desc'));
+            const querySnapshot = await getDocs(q);
+            const allShops = querySnapshot.docs.map(docSnap => ({
+                id: docSnap.id,
+                ...docSnap.data()
+            }));
+            setShops(allShops);
+        } catch (error) {
             console.error('Error fetching shops:', error);
             toast.error('Failed to load triage data');
-        } else {
-            // Deduplicate if necessary (based on existing logic in Home)
-            const uniqueShops = data.filter((shop, index, self) =>
-                index === self.findIndex(s => s.id === shop.id)
-            );
-            setShops(uniqueShops);
         }
         setLoading(false);
     };
@@ -38,8 +36,6 @@ const AdminDashboard = () => {
     // Group shops by status
     const pendingShops = shops.filter(s => s.verification_status === 'pending');
     const verifiedShops = shops.filter(s => s.verification_status === 'verified');
-    // For now, let's treat any other status or specific flag as a separate concern later
-    // Could add a 'Rejected' or 'Flagged' column if needed
 
     const KanbanColumn = ({ title, items, statusColor, count }) => (
         <div className="flex-1 bg-gray-50 dark:bg-gray-800/50 rounded-xl p-4 flex flex-col h-full min-h-[600px] border border-gray-200 dark:border-gray-700">
@@ -66,7 +62,7 @@ const AdminDashboard = () => {
                             <div className="flex justify-between items-start mb-2">
                                 <span className="mono text-xs text-muted">{shop.shop_id || 'NO-ID'}</span>
                                 <span className="text-xs text-muted">
-                                    {new Date(shop.created_at).toLocaleDateString()}
+                                    {shop.created_at?.toDate ? new Date(shop.created_at.toDate()).toLocaleDateString() : 'N/A'}
                                 </span>
                             </div>
                             <h4 className="font-bold text-charcoal dark:text-white text-sm mb-1">{shop.shop_name}</h4>
@@ -125,7 +121,6 @@ const AdminDashboard = () => {
                     />
 
                     {/* Column 3: Flagged / Reported (Future) */}
-                    {/* Placeholder for now */}
                     <div className="flex-1 bg-gray-50 dark:bg-gray-800/50 rounded-xl p-4 border border-gray-200 dark:border-gray-700 opacity-50">
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="font-bold text-gray-500">Flagged Reports</h3>
@@ -232,23 +227,20 @@ const AdminDashboard = () => {
                             </button>
                             <button
                                 onClick={async () => {
-                                    const { error } = await supabase
-                                        .from('shops')
-                                        .update({
+                                    try {
+                                        await updateDoc(doc(db, 'shops', selectedShop.id), {
                                             verification_status: selectedShop.verification_status,
                                             current_status: selectedShop.current_status,
                                             admin_notes: selectedShop.admin_notes,
                                             last_verified_at: selectedShop.verification_status === 'verified' ? new Date().toISOString() : null
-                                        })
-                                        .eq('id', selectedShop.id);
+                                        });
 
-                                    if (error) {
-                                        toast.error('Failed to update shop');
-                                        console.error(error);
-                                    } else {
                                         toast.success('Shop updated successfully');
                                         setSelectedShop(null);
-                                        fetchShops(); // Refresh board
+                                        fetchShops();
+                                    } catch (error) {
+                                        toast.error('Failed to update shop');
+                                        console.error(error);
                                     }
                                 }}
                                 className="px-6 py-2 bg-commerce hover:bg-commerce-hover text-white text-sm font-bold rounded-lg shadow-sm hover:shadow transition-all"

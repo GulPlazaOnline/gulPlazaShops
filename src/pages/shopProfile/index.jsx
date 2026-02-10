@@ -1,13 +1,15 @@
 // src/pages/ShopProfile/index.jsx
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import supabase from '../../supabase.js';
+import { auth, db } from '../../firebase.js';
+import { onAuthStateChanged } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import BackToHomeBtn from '../../components/backToHomeBtn/index.jsx';
 import LogoutBtn from '../../components/logoutBtn/index.jsx';
 
 const ShopProfile = () => {
-    const { id } = useParams(); // shop id from URL
+    const { id } = useParams();
     const [shop, setShop] = useState(null);
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
@@ -22,7 +24,7 @@ const ShopProfile = () => {
         }
     };
 
-    const shareUrl = `https://gul-plaza-shops.vercel.app/shop/${id}`;
+    const shareUrl = `https://gul-plaza-relief.web.app/shop/${id}`;
 
     const copyToClipboard = async () => {
         try {
@@ -55,27 +57,27 @@ const ShopProfile = () => {
     };
 
     useEffect(() => {
-        const getUser = async () => {
-            const { data: { user } } = await supabase.auth.getUser();
-            setUser(user);
-        };
-        getUser();
+        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+            setUser(firebaseUser);
+        });
+        return () => unsubscribe();
     }, []);
 
     useEffect(() => {
         const fetchShop = async () => {
             setLoading(true);
-            const { data, error } = await supabase
-                .from('shops')
-                .select('*')
-                .eq('id', id)
-                .single();
+            try {
+                const shopSnap = await getDoc(doc(db, 'shops', id));
 
-            if (error) {
+                if (!shopSnap.exists()) {
+                    toast.error('Shop not found');
+                    setShop(null);
+                } else {
+                    setShop({ id: shopSnap.id, ...shopSnap.data() });
+                }
+            } catch (error) {
                 toast.error('Failed to load shop: ' + error.message);
                 setShop(null);
-            } else {
-                setShop(data);
             }
             setLoading(false);
         };
@@ -167,7 +169,7 @@ const ShopProfile = () => {
                             </div>
                         </div>
                     )}
-                    {user && user.id == id && (
+                    {user && user.uid == id && (
                         <div style={{ marginTop: '1rem' }}>
                             <button
                                 onClick={() => navigate(`/edit-shop/${id}`)}

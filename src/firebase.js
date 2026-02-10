@@ -4,15 +4,13 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
-// TODO: Replace with your actual Firebase project config
-// Get this from: Firebase Console > Project Settings > General > Your apps
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY_HERE",
-    authDomain: "your-project.firebaseapp.com",
-    projectId: "your-project-id",
-    storageBucket: "your-project.appspot.com",
-    messagingSenderId: "123456789",
-    appId: "1:123456789:web:abcdef123456"
+    apiKey: "AIzaSyCnYT6lbtc_ucNgIqrjxXLSi6GyO3k8JcE",
+    authDomain: "gul-plaza-relief.firebaseapp.com",
+    projectId: "gul-plaza-relief",
+    storageBucket: "gul-plaza-relief.firebasestorage.app",
+    messagingSenderId: "153721617064",
+    appId: "1:153721617064:web:b1fed75f7d3b0c2f61a09d"
 };
 
 // Initialize Firebase

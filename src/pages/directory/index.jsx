@@ -2,7 +2,8 @@
 // Shop Directory Page - Separate from Landing
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import supabase from '../../supabase.js';
+import { db } from '../../firebase.js';
+import { collection, getDocs } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import ShopCard from '../../components/shopCard';
 import SearchBar from '../../components/searchBar';
@@ -14,39 +15,33 @@ const Directory = () => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
-    // Fetch shops with optional search
+    // Fetch shops from Firestore
     useEffect(() => {
         const fetchShops = async () => {
             setLoading(true);
-            let query = supabase.from('shops').select('*');
+            try {
+                const querySnapshot = await getDocs(collection(db, 'shops'));
+                let allShops = querySnapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
 
-            if (search) {
-                query = query.or(
-                    `shop_name.ilike.%${search}%,owner_name.ilike.%${search}%`
-                );
-            }
-
-            const { data, error } = await query;
-            if (error) {
-                console.error("Fetch error:", error);
-                toast.error('Failed to load shops. Please try again.');
-            } else {
-                const uniqueShops = data.filter((shop, index, self) =>
-                    index === self.findIndex(s => s.id === shop.id)
-                );
-
-                let filteredShops = uniqueShops;
+                // Client-side search filter
                 if (search) {
-                    filteredShops = uniqueShops.filter(shop =>
-                        shop.shop_name.toLowerCase().includes(search.toLowerCase()) ||
-                        shop.owner_name.toLowerCase().includes(search.toLowerCase()) ||
+                    const term = search.toLowerCase();
+                    allShops = allShops.filter(shop =>
+                        shop.shop_name?.toLowerCase().includes(term) ||
+                        shop.owner_name?.toLowerCase().includes(term) ||
                         (shop.tags && shop.tags.some(tag =>
-                            tag.toLowerCase().includes(search.toLowerCase())
+                            tag.toLowerCase().includes(term)
                         ))
                     );
                 }
 
-                setShops(filteredShops);
+                setShops(allShops);
+            } catch (error) {
+                console.error("Fetch error:", error);
+                toast.error('Failed to load shops. Please try again.');
             }
             setLoading(false);
         };

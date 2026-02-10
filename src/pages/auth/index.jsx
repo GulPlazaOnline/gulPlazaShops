@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import supabase from '../../supabase.js';
+import { auth } from '../../firebase.js';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import BackToHomeBtn from '../../components/backToHomeBtn/index.jsx';
@@ -16,32 +17,17 @@ const Auth = () => {
         e.preventDefault();
         setLoading(true);
 
-        if (isSignup) {
-            // SIGN UP (email verification OFF)
-            const { error } = await supabase.auth.signUp({
-                email,
-                password,
-            });
-
-            if (error) {
-                toast.error(error.message);
-            } else {
+        try {
+            if (isSignup) {
+                await createUserWithEmailAndPassword(auth, email, password);
                 toast.success('Account created successfully!');
-                navigate('/');
-            }
-        } else {
-            // LOGIN
-            const { error } = await supabase.auth.signInWithPassword({
-                email,
-                password,
-            });
-
-            if (error) {
-                toast.error(error.message);
             } else {
+                await signInWithEmailAndPassword(auth, email, password);
                 toast.success('Login successful!');
-                navigate('/');
             }
+            navigate('/');
+        } catch (error) {
+            toast.error(error.message);
         }
 
         setLoading(false);

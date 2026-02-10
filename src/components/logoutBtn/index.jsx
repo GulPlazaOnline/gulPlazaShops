@@ -1,17 +1,18 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-import supabase from '../../supabase.js';
+import { auth } from '../../firebase.js';
+import { signOut } from 'firebase/auth';
 import { toast } from 'react-toastify';
 
 const LogoutBtn = ({ className }) => {
     const navigate = useNavigate();
 
     const handleLogout = async () => {
-        const { error } = await supabase.auth.signOut();
-        if (error) {
-            toast.error('Logout failed: ' + error.message);
-        } else {
+        try {
+            await signOut(auth);
             navigate('/auth');
+        } catch (error) {
+            toast.error('Logout failed: ' + error.message);
         }
     };
 

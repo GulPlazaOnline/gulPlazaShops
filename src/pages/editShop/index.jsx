@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import supabase from '../../supabase.js';
+import { auth, db } from '../../firebase.js';
+import { onAuthStateChanged } from 'firebase/auth';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import BackToHomeBtn from '../../components/backToHomeBtn/index.jsx';
 import LogoutBtn from '../../components/logoutBtn/index.jsx';
@@ -31,43 +33,44 @@ const EditShop = () => {
 
     // Get current user
     useEffect(() => {
-        const getUser = async () => {
-            const { data } = await supabase.auth.getUser();
-            if (!data.user) {
+        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+            if (!firebaseUser) {
                 toast.error('Please login first');
                 navigate('/auth');
             } else {
-                setUser(data.user);
+                setUser(firebaseUser);
             }
-        };
-        getUser();
+        });
+        return () => unsubscribe();
     }, []);
 
     // Fetch shop
     useEffect(() => {
         const fetchShop = async () => {
-            if (!user || user.id !== id) return;
+            if (!user || user.uid !== id) return;
 
-            const { data, error } = await supabase
-                .from('shops')
-                .select('*')
-                .eq('id', id)
-                .single();
+            try {
+                const shopSnap = await getDoc(doc(db, 'shops', id));
 
-            if (error) {
-                toast.error('Shop not found or access denied');
+                if (!shopSnap.exists()) {
+                    toast.error('Shop not found or access denied');
+                    navigate('/');
+                    return;
+                }
+
+                const data = shopSnap.data();
+                setShopName(data.shop_name || '');
+                setOwnerName(data.owner_name || '');
+                setPhone(data.phone || '');
+                setTags(data.tags ? data.tags.join(', ') : '');
+                setDescription(data.description || '');
+                setLocation(data.new_location || '');
+                setLinks(data.links || [{ name: '', link: '' }]);
+                setLoading(false);
+            } catch (error) {
+                toast.error('Failed to load shop');
                 navigate('/');
-                return;
             }
-
-            setShopName(data.shop_name || '');
-            setOwnerName(data.owner_name || '');
-            setPhone(data.phone || '');
-            setTags(data.tags ? data.tags.join(', ') : '');
-            setDescription(data.description || '');
-            setLocation(data.new_location || '');
-            setLinks(data.links || [{ name: '', link: '' }]);
-            setLoading(false);
         };
 
         if (user) fetchShop();
@@ -76,12 +79,11 @@ const EditShop = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!user || user.id !== id) {
+        if (!user || user.uid !== id) {
             toast.error('Unauthorized action');
             return;
         }
 
-        // Validation: Check required fields
         if (!shopName.trim()) {
             toast.error('Shop name is required');
             return;
@@ -95,16 +97,11 @@ const EditShop = () => {
             return;
         }
 
-        const tagsArray = tags
-            .split(',')
-            .map(t => t.trim())
-            .filter(Boolean);
-
+        const tagsArray = tags.split(',').map(t => t.trim()).filter(Boolean);
         const validLinks = links.filter(l => l.name && l.link);
 
-        const { error } = await supabase
-            .from('shops')
-            .update({
+        try {
+            await updateDoc(doc(db, 'shops', id), {
                 shop_name: shopName,
                 owner_name: ownerName,
                 phone,
@@ -112,14 +109,12 @@ const EditShop = () => {
                 description,
                 new_location: location,
                 links: validLinks,
-            })
-            .eq('id', id);
+            });
 
-        if (error) {
-            toast.error(error.message);
-        } else {
             toast.success('Shop updated successfully');
             navigate(`/shop/${id}`);
+        } catch (error) {
+            toast.error(error.message);
         }
     };
 

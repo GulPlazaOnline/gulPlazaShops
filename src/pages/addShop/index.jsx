@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import supabase from '../../supabase.js';
+import { auth, db } from '../../firebase.js';
+import { onAuthStateChanged } from 'firebase/auth';
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import BackToHomeBtn from '../../components/backToHomeBtn/index.jsx';
 import LogoutBtn from '../../components/logoutBtn/index.jsx';
@@ -19,23 +21,25 @@ const AddShop = () => {
 
     // Get current user
     useEffect(() => {
-        const getUser = async () => {
-            const { data } = await supabase.auth.getUser();
-            if (data.user) setUser(data.user);
-            else navigate('/auth'); // redirect if not logged in
-        };
-        getUser();
+        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+            if (firebaseUser) {
+                setUser(firebaseUser);
+            } else {
+                navigate('/auth');
+            }
+        });
+        return () => unsubscribe();
     }, []);
 
     // Check if user already has a shop
     useEffect(() => {
         const checkShop = async () => {
             if (!user) return;
-            const { data } = await supabase
-                .from('shops')
-                .select('id')
-                .eq('id', user.id);
-            if (data && data.length > 0) navigate(`/shop/${user.id}`);
+            const shopRef = doc(db, 'shops', user.uid);
+            const shopSnap = await getDoc(shopRef);
+            if (shopSnap.exists()) {
+                navigate(`/shop/${user.uid}`);
+            }
         };
         checkShop();
     }, [user]);
@@ -55,7 +59,7 @@ const AddShop = () => {
 
         if (!user) return;
 
-        // Validation: Check required fields
+        // Validation
         if (!shopName.trim()) {
             setError('Shop name is required');
             toast.error('Shop name is required');
@@ -72,35 +76,27 @@ const AddShop = () => {
             return;
         }
 
-        // Convert tags string to array
-        const tagsArray = tags
-            .split(',')
-            .map((t) => t.trim())
-            .filter((t) => t);
-
-        // Filter valid links
+        const tagsArray = tags.split(',').map((t) => t.trim()).filter((t) => t);
         const validLinks = links.filter(l => l.name && l.link);
 
-        // Insert into Supabase
-        const { data, error } = await supabase.from('shops').insert([
-            {
-                id: user.id, // RLS
+        try {
+            await setDoc(doc(db, 'shops', user.uid), {
                 shop_name: shopName,
                 owner_name: ownerName,
                 phone,
                 tags: tagsArray,
                 description,
                 new_location: location,
-                links: validLinks
-            },
-        ]);
+                links: validLinks,
+                verification_status: 'pending',
+                created_at: serverTimestamp()
+            });
 
-        if (error) {
-            setError(error.message);
-            toast.error('Failed to add shop: ' + error.message);
-        } else {
             toast.success('Shop added successfully!');
-            navigate(`/shop/${user.id}`);
+            navigate(`/shop/${user.uid}`);
+        } catch (err) {
+            setError(err.message);
+            toast.error('Failed to add shop: ' + err.message);
         }
     };
 
