@@ -12,8 +12,8 @@ const HeroSection = () => {
             <div className="absolute inset-0 z-0">
                 {/* Before/After Slider Interaction */}
                 <BeforeAfterSlider
-                    beforeImage="/hero-before.webp"
-                    afterImage="/hero-after.webp"
+                    afterImage="/hero-before.webp"
+                    beforeImage="/hero-after.webp"
                     beforeLabel="Before (Jan 17, 2026)"
                     afterLabel="Current State"
                     defaultPosition={38}
