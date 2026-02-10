@@ -51,8 +51,8 @@ const Layout = () => {
                         {/* Logo */}
                         <div className="flex-shrink-0 flex items-center">
                             <Link to="/" className="flex items-center gap-3 group">
-                                <div className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-lg transition-colors duration-300 ${logoBg}`}>
-                                    <span className="font-bold text-lg">GP</span>
+                                <div className={`w-15 h-15`}>
+                                    <img src="/logo.png" alt="" />
                                 </div>
                                 <span className={`font-serif font-bold text-xl tracking-tight transition-colors duration-300 ${headerTextColor}`}>
                                     Gul Plaza Relief
