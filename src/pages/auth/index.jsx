@@ -8,7 +8,7 @@ import {
     GithubAuthProvider,
     FacebookAuthProvider
 } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AuthForm } from '@/components/ui/sign-in-1';
 import { Button } from '@/components/ui/button';
@@ -47,13 +47,23 @@ const IconMail = (props) => (
 );
 
 const Auth = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
     const [showEmailForm, setShowEmailForm] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [isSignup, setIsSignup] = useState(false);
+
+    // Initial state based on URL
+    const [isSignup, setIsSignup] = useState(searchParams.get('mode') === 'signup');
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
+
+    // Update URL when mode changes
+    const toggleMode = () => {
+        const newMode = !isSignup ? 'signup' : 'login';
+        setIsSignup(!isSignup);
+        setSearchParams({ mode: newMode });
+    };
 
     const handleSocialAuth = async (provider, providerName) => {
         try {
@@ -91,20 +101,22 @@ const Auth = () => {
     // If email form is shown, render the email/password form
     if (showEmailForm) {
         return (
-            <div className="flex min-h-screen w-full items-center justify-center p-4" style={{ backgroundColor: 'var(--background)' }}>
-                <div className="w-full max-w-sm animate-in fade-in-0 zoom-in-95 slide-in-from-bottom-4 duration-500">
-                    <div className="rounded-lg border shadow-sm p-6" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)', color: 'var(--card-foreground)' }}>
-                        <div className="text-center mb-6">
-                            <div className="mb-4 flex justify-center">
-                                <div className="w-12 h-12 bg-charcoal dark:bg-white rounded-[4px] flex items-center justify-center">
-                                    <span className="text-white dark:text-charcoal font-bold text-lg">GP</span>
+            <div className="flex min-h-screen w-full items-center justify-center p-4 relative" style={{ backgroundColor: 'var(--background)' }}>
+                <div className="grain-overlay opacity-50 pointer-events-none fixed inset-0 z-0"></div>
+
+                <div className="w-full max-w-sm animate-in fade-in-0 zoom-in-95 slide-in-from-bottom-4 duration-500 relative z-10">
+                    <div className="rounded-3xl border shadow-sm p-8 bg-card text-card-foreground" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)', boxShadow: 'var(--shadow-card)' }}>
+                        <div className="text-center mb-8">
+                            <div className="mb-6 flex justify-center">
+                                <div className="w-14 h-14 bg-primary text-primary-foreground rounded-2xl flex items-center justify-center shadow-md transform -rotate-3">
+                                    <span className="font-serif font-black text-2xl">GP</span>
                                 </div>
                             </div>
-                            <h2 className="text-2xl font-semibold tracking-tight" style={{ color: 'var(--foreground)' }}>
-                                {isSignup ? 'Create Account' : 'Sign In with Email'}
+                            <h2 className="text-3xl font-serif font-bold tracking-tight text-foreground">
+                                {isSignup ? 'Join us.' : 'Welcome back.'}
                             </h2>
-                            <p className="text-sm mt-1.5" style={{ color: 'var(--muted-foreground)' }}>
-                                {isSignup ? 'Create a new account' : 'Enter your credentials to continue'}
+                            <p className="text-base mt-2 text-muted-foreground font-medium">
+                                {isSignup ? 'Start your journey with Gul Plaza.' : 'Sign in to manage your shop.'}
                             </p>
                         </div>
 
@@ -151,7 +163,7 @@ const Auth = () => {
                             <span
                                 className="font-semibold cursor-pointer hover:underline"
                                 style={{ color: 'var(--foreground)' }}
-                                onClick={() => setIsSignup(!isSignup)}
+                                onClick={toggleMode}
                             >
                                 {isSignup ? 'Sign In' : 'Create Account'}
                             </span>
