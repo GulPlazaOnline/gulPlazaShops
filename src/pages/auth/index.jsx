@@ -180,7 +180,7 @@ const Auth = () => {
         <div className="flex min-h-screen w-full items-center justify-center p-4" style={{ backgroundColor: 'var(--background)' }}>
             <div className="w-full max-w-sm">
                 <AuthForm
-                    logoSrc=""
+                    logoSrc="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='8' fill='%23111'/%3E%3Ctext x='50%25' y='54%25' text-anchor='middle' dominant-baseline='middle' font-family='sans-serif' font-size='18' font-weight='bold' fill='white'%3EGP%3C/text%3E%3C/svg%3E"
                     logoAlt="Gul Plaza"
                     title="Welcome Back"
                     description="Sign in to manage your shop profile"
