@@ -3,6 +3,48 @@
 /* Enable class-based dark mode for Tailwind v4 */
 @variant dark (&:where(.dark, .dark *));
 
+/* shadcn CSS variables */
+:root {
+  --background: #F4F3F1;
+  --foreground: #111111;
+  --card: #FFFFFF;
+  --card-foreground: #111111;
+  --primary: #111111;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F4F3F1;
+  --secondary-foreground: #111111;
+  --muted: #F4F3F1;
+  --muted-foreground: #666666;
+  --accent: #F4F3F1;
+  --accent-foreground: #111111;
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+  --border: #E5E5E5;
+  --input: #E5E5E5;
+  --ring: #111111;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: #121212;
+  --foreground: #F9FAFB;
+  --card: #1C1C1C;
+  --card-foreground: #F9FAFB;
+  --primary: #FFFFFF;
+  --primary-foreground: #111111;
+  --secondary: #27272A;
+  --secondary-foreground: #F9FAFB;
+  --muted: #27272A;
+  --muted-foreground: #A3A3A3;
+  --accent: #27272A;
+  --accent-foreground: #F9FAFB;
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+  --border: #333333;
+  --input: #333333;
+  --ring: #FFFFFF;
+}
+
 /* Crisis Recovery Palette - "Newsroom Grey" + "Signal Colors" */
 @theme {
   --font-sans: 'Inter', sans-serif;
@@ -46,32 +88,37 @@
   --font-sans: 'Outfit', sans-serif;
   --font-serif: 'Fraunces', serif;
   --font-mono: 'JetBrains Mono', monospace;
-  
+
   /* Backgrounds */
-  --color-surface: #F4F3F1; /* Warm Paper */
-  --color-surface-dark: #121212; /* Deep Void */
+  --color-surface: #F4F3F1;
+  /* Warm Paper */
+  --color-surface-dark: #121212;
+  /* Deep Void */
   --color-card: #FFFFFF;
   --color-card-dark: #1C1C1C;
-  
+
   /* Text */
   --color-charcoal: #111111;
   --color-muted: #666666;
   --color-muted-dark: #A3A3A3;
-  
+
   /* Action Colors - High Contrast */
-  --color-commerce: #FF5A1F; /* Vivid Orange */
+  --color-commerce: #FF5A1F;
+  /* Vivid Orange */
   --color-commerce-hover: #E04810;
-  --color-relief: #B91C1C; /* Blood Red */
+  --color-relief: #B91C1C;
+  /* Blood Red */
   --color-relief-hover: #991B1B;
-  --color-alert: #D97706; /* Amber Warning */
+  --color-alert: #D97706;
+  /* Amber Warning */
   --color-alert-hover: #B45309;
-  
+
   /* Status Colors */
   --color-status-verified: #15803D;
   --color-status-pending: #CA8A04;
   --color-status-danger: #DC2626;
 
-    /* Legacy support */
+  /* Legacy support */
   --color-primary-600: #FF5A1F;
   --color-primary-700: #E04810;
 }
@@ -81,8 +128,13 @@
   body {
     @apply bg-surface text-charcoal dark:bg-surface-dark dark:text-gray-100 transition-colors duration-200;
   }
-  
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-serif);
     font-variation-settings: "SOFT" 50, "WONK" 0;
     letter-spacing: -0.02em;
@@ -91,6 +143,7 @@
 
 /* Utility classes for Soft/Human Design */
 @layer components {
+
   /* Soft Gradient Overlay */
   .grain-overlay {
     position: fixed;
@@ -107,11 +160,11 @@
 
   /* Soft Card Style */
   .card-soft {
-    @apply bg-white dark:bg-zinc-900 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 dark:border-gray-800 transition-all duration-500 ease-out;
+    @apply bg-white dark:bg-zinc-900 rounded-3xl shadow-[0_8px_30px_rgb(0, 0, 0, 0.04)] border border-gray-100 dark:border-gray-800 transition-all duration-500 ease-out;
   }
 
   .card-soft:hover {
-     @apply shadow-[0_8px_30px_rgb(0,0,0,0.12)] -translate-y-1 transform;
+    @apply shadow-[0_8px_30px_rgb(0, 0, 0, 0.12)] -translate-y-1 transform;
   }
 
   /* Soft Buttons */
@@ -127,23 +180,23 @@
   .status-pill {
     @apply inline-flex items-center px-3 py-1 rounded-full text-[10px] uppercase font-bold tracking-widest font-mono shadow-sm;
   }
-  
+
   .status-verified {
     @apply bg-green-50 text-green-700 border border-green-100 dark:bg-green-900/20 dark:text-green-300 dark:border-green-800/30;
   }
-  
+
   .status-pending {
     @apply bg-amber-50 text-amber-700 border border-amber-100 dark:bg-amber-900/20 dark:text-amber-300 dark:border-amber-800/30;
   }
-  
+
   .status-deceased {
     @apply bg-gray-100 text-gray-600 border border-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700;
   }
-  
+
   .status-severe {
     @apply bg-rose-50 text-rose-700 border border-rose-100 dark:bg-rose-900/20 dark:text-rose-300 dark:border-rose-800/30;
   }
-  
+
   .mono {
     font-family: var(--font-mono);
   }
