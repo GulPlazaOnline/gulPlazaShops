@@ -61,7 +61,6 @@ const Layout = () => {
 
                         {/* Actions (Desktop) */}
                         <div className="hidden md:flex items-center gap-4">
-                            <ThemeToggle className={isHome && !isScrolled ? 'text-white hover:bg-white/10' : ''} />
                             {user ? (
                                 <LogoutBtn className={`text-sm font-medium ${headerTextColor}`} />
                             ) : (
