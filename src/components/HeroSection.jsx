@@ -22,10 +22,10 @@ const HeroSection = () => {
                 {/* CONTENT (Left) */}
                 <div className="flex flex-col justify-center py-20">
 
-                    {/* Location Badge */}
-                    <div className="inline-flex items-center gap-2 self-start border border-white/20 bg-white/5 backdrop-blur-sm px-3 py-1 rounded-full mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-                        <MapPin className="w-3 h-3 text-[var(--color-terracotta)]" />
-                        <span className="text-white/80 text-[10px] font-sans uppercase tracking-widest font-medium">
+                    {/* Location Badge - Subtle Stamp Style */}
+                    <div className="inline-flex items-center gap-2 self-start mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700 select-none">
+                        <MapPin className="w-3 h-3 text-white/50" />
+                        <span className="text-white/50 text-xs font-sans uppercase tracking-[0.2em] font-medium">
                             M.A. Jinnah Road, Karachi
                         </span>
                     </div>

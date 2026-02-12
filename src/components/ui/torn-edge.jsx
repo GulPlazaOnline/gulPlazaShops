@@ -1,33 +1,90 @@
 "use client";
 
 export function TornEdge({ className = "", flip = false }) {
-    // Generate a high-frequency jagged path mimicking ripped cardboard/paper
-    // We need many small zig-zags.
-    const segments = 200; // More segments for higher frequency
-    let path = "M0,0 L100,0 L100,10 ";
-
-    // Deterministic jagged path string to avoid hydration mismatches
-    // We can just construct a fixed string here or use a seed if we want randomness.
-    // For simplicity and "violent" look, let's hardcode a loop that generates sharp spikes.
-
+    // Generate a high-frequency jagged "sawtooth" path
+    const segments = 150;
     let d = "";
+
+    // We want sharp zig-zags.
+    // We will generate a path that goes from left to right.
+    // The "tear" is at the top of this shape if we consider it sitting at the bottom of the hero.
+    // Wait, if this component is at `bottom-0` of the hero, and fills the space *below* the hero image?
+    // No, usually "Torn Edge" is a shape that covers the *bottom* of the image with the background color of the *next* section?
+    // OR it is a shape of the *current* section that has a jagged bottom?
+    // If it's a shape of the current section (Dark Charcoal), it should be filled with Charcoal, and the empty space below reveals the white next section.
+    // So the SVG should be: Top edge straight (connected to hero), Bottom edge jagged.
+    // AND it should be placed such that the jagged bottom edge sits over the white background of the next section?
+    // Actually, if the next section is white, and we want the hero to look torn ON TOP of it:
+    // The SVG needs to be the *bottom part* of the hero.
+    // So the SVG path should be: Move to Top-Left -> Top-Right -> Bottom-Right (jagged) -> Bottom-Left (jagged) -> Close.
+    // OR simpler: The SVG is a "transition" strip.
+    // If we want the Dark Hero to look torn, the SVG should be filled with `#1a1915`.
+    // Top edge: Straight line at y=0.
+    // Bottom edge: Jagged line varying between y=2 and y=10.
+    // This SVG sits at the very bottom of the Hero container.
+    // The next section starts immediately after the Hero container.
+    // So visually: Hero Dark Block -> Jagged Edge -> White Section.
+
     for (let i = 0; i <= segments; i++) {
         const x = 100 - (i / segments) * 100;
-        // High frequency noise: combination of sine waves and random-looking spikes
-        // We want sharp spikes, so use Math.random like function or just modulo
-        // Since we need it deterministic, we use Math.sin with high multipliers
-        const noise = Math.sin(i * 12.34) * 1.5 + Math.sin(i * 45.67) * 1.0 + Math.sin(i * 78.9) * 0.5;
-        // Map noise to y between 2 and 8
-        const y = 5 + noise;
+        // Sawtooth noise: Math.random() is unstable for SSR.
+        // Use a pseudo-random deterministic function.
+        const pseudoRandom = (seed) => {
+            const x = Math.sin(seed) * 10000;
+            return x - Math.floor(x);
+        };
+
+        // Zig-zag: alternating high and low, plus some noise.
+        // Base sawtooth: i % 2 == 0 ? low : high
+        const base = (i % 2 === 0) ? 2 : 8;
+        // Add noise to make it "violent" and irregular
+        const noise = pseudoRandom(i * 123.45) * 4 - 2;
+        const y = Math.max(0, Math.min(10, base + noise));
+
         d += `L${x.toFixed(2)},${y.toFixed(2)} `;
     }
 
     const pathData = `M0,0 L100,0 L100,10 ${d} L0,10 Z`;
 
+    // Highlight line: Just the jagged bottom edge, but slightly shifted or stroke?
+    // To simulate "white fiber" highlight on the TOP edge of the tear?
+    // If the tear is the bottom of the dark section, the light hits the torn edge suitable.
+    // A thin white stroke along the jagged edge.
+    // The jagged edge path itself is what we need.
+    // We can't reuse the closed path easily for stroke without artifacts.
+    // Let's create a separate open path for the stroke.
+
+    let strokeD = `M100,10 `; // Start where the previous loop started? No, loop went 100 -> 0.
+    // Recalculate or store points? Storing is better but loop is cheap.
+    // Let's just regenerate the stroke path (Line only along the jagged part).
+    // Actually, the loop above built `d` which is L... L... L...
+    // We need M at the start of the jagged part.
+    // The jagged part starts at 100,y_start... ends at 0,y_end.
+
+    // Let's separate point generation.
+    const points = [];
+    for (let i = 0; i <= segments; i++) {
+        const x = 100 - (i / segments) * 100;
+        const pseudoRandom = (seed) => (Math.sin(seed) * 10000) - Math.floor(Math.sin(seed) * 10000);
+        const base = (i % 2 === 0) ? 2 : 8;
+        const noise = pseudoRandom(i * 123.45) * 4 - 2;
+        const y = Math.max(0, Math.min(10, base + noise));
+        points.push({ x, y });
+    }
+
+    const jaggedPathCmd = points.map(p => `L${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(" ");
+    const fullPath = `M0,0 L100,0 L100,${points[0].y.toFixed(2)} ${jaggedPathCmd} L0,0 Z`;
+    // Wait, close path logic:
+    // Top-Left (0,0) -> Top-Right (100,0) -> Start of jagged (100, y0) -> ... -> End of jagged (0, yn) -> Close to (0,0).
+    // Perfect.
+
+    // Stroke Path: Just the jagged part.
+    const highlightPath = `M100,${points[0].y.toFixed(2)} ${jaggedPathCmd}`;
+
     return (
         <div className={`absolute bottom-0 left-0 w-full overflow-hidden leading-none ${className}`} style={{ transform: flip ? 'scaleY(-1)' : 'none' }}>
             <svg
-                className="relative block w-full h-[60px] md:h-[80px]"
+                className="relative block w-full h-[50px] md:h-[80px]"
                 viewBox="0 0 100 10"
                 preserveAspectRatio="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -36,27 +93,24 @@ export function TornEdge({ className = "", flip = false }) {
                     <filter id="torn-shadow" x="-50%" y="-50%" width="200%" height="200%">
                         <feDropShadow dx="0" dy="1" stdDeviation="0.5" floodColor="#000" floodOpacity="0.6" />
                     </filter>
-                    {/* Inner shadow trick? usually done with CSS box-shadow inset or SVG filters which are complex.
-                We can just draw a second path slightly offset or use drop-shadow on the container? 
-                Actually, user asked for "inner shadow at the top of the tear". 
-                This implies the tear looks like it has thickness.
-                We can simulate this by drawing the path twice, one slightly lower with a darker color, or using a gradient on the fill.
-            */}
                 </defs>
 
-                {/* Main shape */}
+                {/* Main Dark Shape */}
                 <path
-                    d={pathData}
+                    d={fullPath}
                     fill="#1a1915"
                     filter="url(#torn-shadow)"
                 />
 
-                {/* "Thickness" / Inner Shadow Simulation - A stroke or slightly offset path?
-            Actually, let's just keep it simple with the drop shadow for now as "inner shadow" on a filled shape 
-            usually means shading *inside* the shape near the edge.
-            We can add a gradient fill to the shape that gets darker near the bottom?
-            Or just trust the drop shadow to give depth against the white background below.
-        */}
+                {/* White Highlight on the jagged edge */}
+                <path
+                    d={highlightPath}
+                    fill="none"
+                    stroke="rgba(255,255,255,0.3)"
+                    strokeWidth="0.2"
+                    strokeLinecap="round"
+                    vectorEffect="non-scaling-stroke"
+                />
             </svg>
         </div>
     );
