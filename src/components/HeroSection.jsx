@@ -1,6 +1,6 @@
 // src/components/HeroSection.jsx
 import { useNavigate } from 'react-router-dom';
-import { MapPin, Building2, Users, ShieldCheck, Heart, Handshake } from 'lucide-react';
+import { MapPin, Store, Heart, CheckCircle2 } from 'lucide-react';
 import { TextReveal } from './ui/text-reveal';
 import { TornEdge } from './ui/torn-edge';
 
@@ -23,9 +23,9 @@ const HeroSection = () => {
                 <div className="flex flex-col justify-center pt-32 pb-20">
 
                     {/* Location Badge - Subtle Stamp Style */}
-                    <div className="inline-flex items-center gap-2 self-start mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700 select-none">
-                        <MapPin className="w-3 h-3 text-white/50" />
-                        <span className="text-white/50 text-xs font-sans uppercase tracking-[0.2em] font-medium">
+                    <div className="inline-flex items-center gap-2 self-start mb-10 animate-in fade-in slide-in-from-bottom-4 duration-700 select-none opacity-60">
+                        <MapPin className="w-3 h-3 text-white" />
+                        <span className="text-white text-xs font-sans uppercase tracking-[0.2em] font-medium">
                             M.A. Jinnah Road, Karachi
                         </span>
                     </div>
@@ -33,12 +33,12 @@ const HeroSection = () => {
                     {/* Headline - "Big Brand" Look */}
                     <h1 className="font-serif text-6xl md:text-8xl leading-[0.85] tracking-tight mb-8">
                         <span className="text-[#faf9f5] block">GUL PLAZA</span>
-                        {/* RELIEF: Upright, Extra Bold, Tracking-widest to balance width */}
+                        {/* RELIEF: Upright, Extra Bold, Tracking-widest */}
                         <span className="text-[var(--color-terracotta)] block font-extrabold not-italic tracking-wider">RELIEF</span>
                     </h1>
 
                     {/* Sub-headline - Phantom Reveal */}
-                    <div className=" min-h-[5rem] mb-10">
+                    <div className="min-h-[5rem] mb-12">
                         <TextReveal
                             text="For 30 years, Gul Plaza was the wholesale heart of Karachi. On Jan 17th, fire took 1,200 shops. Help us rebuild the hub of our economy."
                             className="font-sans font-light text-lg md:text-xl text-white/80 leading-relaxed max-w-lg"
@@ -46,41 +46,41 @@ const HeroSection = () => {
                         />
                     </div>
 
-                    {/* Trust Cards - Minimalist Transparent */}
-                    <div className="flex flex-wrap gap-4 mb-10 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500">
-                        {[
-                            { label: "1,200 Shops Lost", icon: <Building2 className="w-4 h-4 text-white/90" /> },
-                            { label: "Wholesale Market Support", icon: <Users className="w-4 h-4 text-white/90" /> },
-                            { label: "Direct Bank Transfer", icon: <ShieldCheck className="w-4 h-4 text-white/90" /> },
-                        ].map((item, i) => (
-                            <div key={i} className="flex items-center gap-3 px-4 py-3 border border-white/10 rounded-sm bg-transparent hover:bg-white/5 transition-colors cursor-default">
-                                {item.icon}
-                                <span className="text-xs font-sans font-medium text-white/80 uppercase tracking-widest">{item.label}</span>
-                            </div>
-                        ))}
-                    </div>
+                    {/* DUAL PATH ACTION AREA */}
+                    <div className="flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500 max-w-lg">
 
-                    {/* CTAs - Direct Support */}
-                    <div className="flex flex-col animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-700">
-                        <div className="flex flex-col sm:flex-row items-center gap-4 mb-3">
-                            <button
-                                onClick={() => navigate('/relief')}
-                                className="w-full sm:w-auto px-8 py-4 bg-[#c96442] text-white font-sans font-semibold text-sm uppercase tracking-widest rounded-md shadow-lg hover:bg-[#b05536] transition-all duration-300 hover:-translate-y-0.5 flex items-center justify-center gap-2"
-                            >
-                                <Heart className="w-4 h-4 fill-current" />
-                                <span>Sponsor a Family</span>
-                            </button>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {/* Option A: Business Path */}
                             <button
                                 onClick={() => navigate('/directory')}
-                                className="w-full sm:w-auto px-8 py-4 bg-transparent border border-white/30 text-white font-sans font-semibold text-sm uppercase tracking-widest rounded-md hover:bg-white/5 hover:border-white/60 transition-all duration-300 flex items-center justify-center gap-2"
+                                className="group flex flex-col items-start p-5 rounded-lg border border-[var(--color-terracotta)]/30 bg-white/5 hover:bg-white/10 transition-all duration-300 hover:-translate-y-1 text-left"
                             >
-                                <span>View Verified List</span>
+                                <div className="p-2 rounded-full bg-white/5 mb-3 group-hover:bg-[var(--color-terracotta)] group-hover:text-white transition-colors text-[var(--color-terracotta)]">
+                                    <Store className="w-5 h-5" />
+                                </div>
+                                <span className="text-white font-serif font-bold text-lg leading-tight mb-1">Rebuild a Shop</span>
+                                <span className="text-white/60 text-xs font-sans leading-relaxed">Help small business owners restock and restart.</span>
+                            </button>
+
+                            {/* Option B: Family Path (Primary) */}
+                            <button
+                                onClick={() => navigate('/relief')}
+                                className="group flex flex-col items-start p-5 rounded-lg bg-[var(--color-terracotta)] hover:bg-[#b05536] transition-all duration-300 hover:-translate-y-1 text-left shadow-[0_0_30px_rgba(201,100,66,0.3)]"
+                            >
+                                <div className="p-2 rounded-full bg-white/20 mb-3 text-white">
+                                    <Heart className="w-5 h-5 fill-current" />
+                                </div>
+                                <span className="text-white font-serif font-bold text-lg leading-tight mb-1">Support a Family</span>
+                                <span className="text-white/90 text-xs font-sans leading-relaxed">Provide rations & rent for those who lost breadwinners.</span>
                             </button>
                         </div>
-                        {/* Context Caption */}
-                        <p className="text-white/50 text-[10px] uppercase tracking-wider font-medium pl-1">
-                            100% of funds go directly to shopkeepers' bank accounts.
-                        </p>
+
+                        {/* Trust Signal */}
+                        <div className="flex items-center justify-center gap-2 text-white/40 text-[10px] uppercase tracking-wider font-medium">
+                            <CheckCircle2 className="w-3 h-3 text-[var(--color-terracotta)]" />
+                            <span>100% Direct Bank Transfer • Verified List</span>
+                        </div>
+
                     </div>
 
                 </div>
@@ -90,7 +90,7 @@ const HeroSection = () => {
                     <img
                         src="/hero-before.webp"
                         alt="Gul Plaza Tragedy"
-                        className="w-full h-full object-cover [mask-image:linear-gradient(to_top,transparent,black_20%)] lg:[mask-image:linear-gradient(to_right,transparent,black_20%,black)] opacity-80 mix-blend-screen grayscale-[30%] contrast-125"
+                        className="w-full h-full object-cover [mask-image:linear-gradient(to_top,transparent,black_20%)] lg:[mask-image:linear-gradient(to_right,transparent,black_10%,black_80%)] opacity-80 mix-blend-screen grayscale-[30%] contrast-125"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#1a1915] via-transparent to-transparent lg:bg-gradient-to-l" />
                 </div>
