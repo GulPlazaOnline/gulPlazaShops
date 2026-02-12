@@ -3,139 +3,156 @@
 /* Enable class-based dark mode for Tailwind v4 */
 @variant dark (&:where(.dark, .dark *));
 
-/* shadcn CSS variables */
+/* Google Fonts - Earthy / Bookish */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+
+/* ── Design Tokens ── */
 :root {
-  --background: #F4F3F1;
-  /* Warm Paper */
-  --foreground: #1c1917;
-  /* Stone 900 */
-  --card: #FFFFFF;
-  --card-foreground: #1c1917;
-  --primary: #1c1917;
-  --primary-foreground: #fafaf9;
-  --secondary: #f5f5f4;
-  /* Stone 100 */
-  --secondary-foreground: #1c1917;
-  --muted: #f5f5f4;
-  --muted-foreground: #78716c;
-  /* Stone 500 */
-  --accent: #f5f5f4;
-  --accent-foreground: #1c1917;
-  --destructive: #ef4444;
-  --destructive-foreground: #fafaf9;
-  --border: #e7e5e4;
-  /* Stone 200 - Warm Grey */
-  --input: #e7e5e4;
-  --ring: #1c1917;
-  --radius: 1rem;
-  /* 16px - Softer */
-  --shadow-card: 0 25px 50px -12px rgba(28, 25, 23, 0.15);
-  /* Warm shadow */
+  --card: #fffcf5;
+  --ring: #a67c52;
+  --input: #dbd0ba;
+  --muted: #ece5d8;
+  --accent: #d4c8aa;
+  --border: #dbd0ba;
+  --radius: 0.25rem;
+  --chart-1: #a67c52;
+  --chart-2: #8d6e4c;
+  --chart-3: #735a3a;
+  --chart-4: #b3906f;
+  --chart-5: #c0a080;
+  --popover: #fffcf5;
+  --primary: #a67c52;
+  --sidebar: #ece5d8;
+  --secondary: #e2d8c3;
+  --background: #f5f1e6;
+  --foreground: #4a3f35;
+  --destructive: #b54a35;
+  --shadow-blur: 5px;
+  --shadow-color: hsl(28 13% 20%);
+  --sidebar-ring: #a67c52;
+  --shadow-spread: 0px;
+  --shadow-opacity: 0.12;
+  --sidebar-accent: #d4c8aa;
+  --sidebar-border: #dbd0ba;
+  --card-foreground: #4a3f35;
+  --shadow-offset-x: 2px;
+  --shadow-offset-y: 3px;
+  --sidebar-primary: #a67c52;
+  --muted-foreground: #7d6b56;
+  --accent-foreground: #4a3f35;
+  --popover-foreground: #4a3f35;
+  --primary-foreground: #ffffff;
+  --sidebar-foreground: #4a3f35;
+  --secondary-foreground: #5c4d3f;
+  --destructive-foreground: #ffffff;
+  --sidebar-accent-foreground: #4a3f35;
+  --sidebar-primary-foreground: #ffffff;
 }
 
 .dark {
-  --background: #09090b;
-  --foreground: #FAFAFA;
-  --card: #18181b;
-  --card-foreground: #FAFAFA;
-  --primary: #FAFAFA;
-  --primary-foreground: #18181b;
-  --secondary: #27272A;
-  --secondary-foreground: #FAFAFA;
-  --muted: #27272A;
-  --muted-foreground: #A1A1AA;
-  --accent: #27272A;
-  --accent-foreground: #FAFAFA;
-  --destructive: #7F1D1D;
-  --destructive-foreground: #FAFAFA;
-  --border: #3F3F46;
-  --input: #27272A;
-  --ring: #D4D4D8;
-  --shadow-card: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+  --card: #3a322c;
+  --ring: #c0a080;
+  --input: #4a4039;
+  --muted: #3a322c;
+  --accent: #59493e;
+  --border: #4a4039;
+  --chart-1: #c0a080;
+  --chart-2: #b3906f;
+  --chart-3: #a67c52;
+  --chart-4: #8d6e4c;
+  --chart-5: #735a3a;
+  --popover: #3a322c;
+  --primary: #c0a080;
+  --sidebar: #2d2621;
+  --secondary: #4a4039;
+  --background: #2d2621;
+  --foreground: #ece5d8;
+  --destructive: #b54a35;
+  --sidebar-ring: #c0a080;
+  --sidebar-accent: #59493e;
+  --sidebar-border: #4a4039;
+  --card-foreground: #ece5d8;
+  --sidebar-primary: #c0a080;
+  --muted-foreground: #c5bcac;
+  --accent-foreground: #ece5d8;
+  --popover-foreground: #ece5d8;
+  --primary-foreground: #2d2621;
+  --sidebar-foreground: #ece5d8;
+  --secondary-foreground: #ece5d8;
+  --destructive-foreground: #ffffff;
+  --sidebar-accent-foreground: #ece5d8;
+  --sidebar-primary-foreground: #2d2621;
 }
 
-/* Crisis Recovery Palette - "Newsroom Grey" + "Signal Colors" */
-@theme {
-  --font-sans: 'Inter', sans-serif;
-  --font-serif: 'Merriweather', Georgia, serif;
-  --font-mono: 'Roboto Mono', 'Courier New', monospace;
+/* ── Tailwind ↔ CSS Variable Bridge ── */
+/* @theme inline makes Tailwind utilities use var() references,
+   so bg-card, text-foreground etc. automatically respond to .dark class */
+@theme inline {
+  --font-sans: 'Libre Baskerville', serif;
+  --font-serif: 'Lora', serif;
+  --font-mono: 'IBM Plex Mono', monospace;
 
-  /* Backgrounds */
-  --color-surface: #F9FAFB;
-  --color-surface-dark: #111827;
-  --color-card: #FFFFFF;
-  --color-card-dark: #1F2937;
+  --color-card: var(--card);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-border: var(--border);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-popover: var(--popover);
+  --color-primary: var(--primary);
+  --color-sidebar: var(--sidebar);
+  --color-secondary: var(--secondary);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-destructive: var(--destructive);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-card-foreground: var(--card-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
 
-  /* Text */
-  --color-charcoal: #1F2937;
-  --color-muted: #6B7280;
-  --color-muted-dark: #9CA3AF;
+  /* App-specific aliases (for Layout.jsx compatibility) */
+  --color-surface: var(--background);
+  --color-surface-dark: var(--background);
+  --color-charcoal: var(--foreground);
+  --color-muted-dark: var(--muted-foreground);
 
   /* Action Colors */
-  --color-commerce: #F97316;
-  --color-commerce-hover: #EA580C;
-  --color-relief: #991B1B;
-  --color-relief-hover: #7F1D1D;
-  --color-alert: #F59E0B;
-  --color-alert-hover: #D97706;
+  --color-commerce: var(--primary);
+  --color-commerce-hover: #8d6e4c;
+  --color-relief: var(--destructive);
+  --color-relief-hover: #993d2c;
+  --color-alert: #c0a060;
+  --color-alert-hover: #a68a50;
 
   /* Status Colors */
-  --color-status-verified: #16A34A;
-  --color-status-pending: #EAB308;
-  --color-status-danger: #DC2626;
+  --color-status-verified: #6b8f71;
+  --color-status-pending: #c0a060;
+  --color-status-danger: var(--destructive);
 
-  /* Legacy support */
-  --color-primary-600: #F97316;
-  --color-primary-700: #EA580C;
+  /* Legacy */
+  --color-primary-600: var(--primary);
+  --color-primary-700: #8d6e4c;
 }
 
-/* Google Fonts - Editorial & Modern */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;400;600;700;900&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-
-/* Crisis Recovery Palette - "Restored Dignity" (Editorial) */
-@theme {
-  --font-sans: 'Outfit', sans-serif;
-  --font-serif: 'Fraunces', serif;
-  --font-mono: 'JetBrains Mono', monospace;
-
-  /* Backgrounds */
-  --color-surface: #F4F3F1;
-  /* Warm Paper */
-  --color-surface-dark: #121212;
-  /* Deep Void */
-  --color-card: #FFFFFF;
-  --color-card-dark: #1C1C1C;
-
-  /* Text */
-  --color-charcoal: #111111;
-  --color-muted: #666666;
-  --color-muted-dark: #A3A3A3;
-
-  /* Action Colors - High Contrast */
-  --color-commerce: #FF5A1F;
-  /* Vivid Orange */
-  --color-commerce-hover: #E04810;
-  --color-relief: #B91C1C;
-  /* Blood Red */
-  --color-relief-hover: #991B1B;
-  --color-alert: #D97706;
-  /* Amber Warning */
-  --color-alert-hover: #B45309;
-
-  /* Status Colors */
-  --color-status-verified: #15803D;
-  --color-status-pending: #CA8A04;
-  --color-status-danger: #DC2626;
-
-  /* Legacy support */
-  --color-primary-600: #FF5A1F;
-  --color-primary-700: #E04810;
-}
-
-/* Base styles */
+/* ── Base Styles ── */
 @layer base {
   body {
-    @apply bg-surface text-charcoal dark:bg-surface-dark dark:text-gray-100 transition-colors duration-200;
+    @apply bg-background text-foreground transition-colors duration-200;
   }
 
   h1,
@@ -145,15 +162,14 @@
   h5,
   h6 {
     font-family: var(--font-serif);
-    font-variation-settings: "SOFT" 50, "WONK" 0;
     letter-spacing: -0.02em;
   }
 }
 
-/* Utility classes for Soft/Human Design */
+/* ── Utility Classes ── */
 @layer components {
 
-  /* Soft Gradient Overlay */
+  /* Grain texture overlay */
   .grain-overlay {
     position: fixed;
     top: 0;
@@ -167,9 +183,9 @@
     mix-blend-mode: overlay;
   }
 
-  /* Soft Card Style */
+  /* Card */
   .card-soft {
-    @apply bg-white dark:bg-zinc-900 rounded-3xl border border-gray-100 dark:border-gray-800 transition-all duration-500 ease-out;
+    @apply bg-card rounded-lg border border-border transition-all duration-500 ease-out;
     box-shadow: 0 8px 30px rgb(0 0 0 / 0.04);
   }
 
@@ -178,16 +194,16 @@
     box-shadow: 0 8px 30px rgb(0 0 0 / 0.12);
   }
 
-  /* Soft Buttons */
+  /* Buttons */
   .btn-primary {
-    @apply bg-charcoal text-white font-serif font-medium px-8 py-4 rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 tracking-wide text-sm;
+    @apply bg-primary text-primary-foreground font-medium px-8 py-4 rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 tracking-wide text-sm;
   }
 
   .btn-secondary {
-    @apply bg-white text-charcoal font-serif font-medium px-8 py-4 rounded-full border border-gray-200 hover:border-gray-400 hover:bg-gray-50 transition-all duration-300 tracking-wide text-sm;
+    @apply bg-card text-foreground font-medium px-8 py-4 rounded-full border border-border hover:bg-accent transition-all duration-300 tracking-wide text-sm;
   }
 
-  /* Soft Status Pills */
+  /* Status Pills */
   .status-pill {
     @apply inline-flex items-center px-3 py-1 rounded-full text-[10px] uppercase font-bold tracking-widest font-mono shadow-sm;
   }
