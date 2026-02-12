@@ -1,22 +1,25 @@
 // src/components/HeroSection.jsx
 import { useNavigate } from 'react-router-dom';
 import CrisisTicker from './CrisisTicker';
-import BeforeAfterSlider from './BeforeAfterSlider';
+import { RevealWaveImage } from './ui/reveal-wave-image';
 
 const HeroSection = () => {
     const navigate = useNavigate();
 
     return (
         <section className="relative h-screen w-full flex flex-col bg-black overflow-hidden">
-            {/* HERO IMAGE - Full Bleed with Overlay */}
+            {/* HERO IMAGE - Full Bleed with RevealWave Effect */}
             <div className="absolute inset-0 z-0">
-                {/* Before/After Slider Interaction */}
-                <BeforeAfterSlider
-                    afterImage="/hero-before.webp"
-                    beforeImage="/hero-after.webp"
-                    beforeLabel="Before (Jan 17, 2026)"
-                    afterLabel="Current State"
-                    defaultPosition={38}
+                <RevealWaveImage
+                    src="/hero-before.webp"
+                    waveSpeed={0.2}
+                    waveFrequency={0.7}
+                    waveAmplitude={0.5}
+                    revealRadius={0.5}
+                    revealSoftness={1}
+                    pixelSize={2}
+                    mouseRadius={0.4}
+                    className="h-full w-full"
                 />
 
                 {/* Cinematic Gradient Overlays - Pointer Events None for Interactivity */}
