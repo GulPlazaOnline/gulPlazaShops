@@ -59,8 +59,8 @@ const Layout = () => {
                             </Link>
                         </div>
 
-                        {/* Actions */}
-                        <div className="flex items-center gap-4">
+                        {/* Actions (Desktop) */}
+                        <div className="hidden md:flex items-center gap-4">
                             <ThemeToggle className={isHome && !isScrolled ? 'text-white hover:bg-white/10' : ''} />
                             {user ? (
                                 <LogoutBtn className={`text-sm font-medium ${headerTextColor}`} />
@@ -75,6 +75,13 @@ const Layout = () => {
                                     Sign In
                                 </Link>
                             )}
+                        </div>
+
+                        {/* Mobile Menu Icon */}
+                        <div className="md:hidden flex items-center">
+                            <button className={`p-2 rounded-md ${headerTextColor}`}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-menu"><line x1="4" x2="20" y1="12" y2="12" /><line x1="4" x2="20" y1="6" y2="6" /><line x1="4" x2="20" y1="18" y2="18" /></svg>
+                            </button>
                         </div>
                     </div>
                 </div>
