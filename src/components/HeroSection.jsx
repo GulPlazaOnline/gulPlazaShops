@@ -1,6 +1,6 @@
 // src/components/HeroSection.jsx
 import { useNavigate } from 'react-router-dom';
-import { MapPin, Building2, Users, ShieldCheck } from 'lucide-react';
+import { MapPin, Building2, Users, ShieldCheck, Heart, Handshake } from 'lucide-react';
 import { TextReveal } from './ui/text-reveal';
 import { TornEdge } from './ui/torn-edge';
 
@@ -33,7 +33,8 @@ const HeroSection = () => {
                     {/* Headline - "Big Brand" Look */}
                     <h1 className="font-serif text-6xl md:text-8xl leading-[0.85] tracking-tight mb-8">
                         <span className="text-[#faf9f5] block">GUL PLAZA</span>
-                        <span className="text-[var(--color-terracotta)] block italic">RELIEF</span>
+                        {/* RELIEF: Upright, Extra Bold, Tracking-widest to balance width */}
+                        <span className="text-[var(--color-terracotta)] block font-extrabold not-italic tracking-wider">RELIEF</span>
                     </h1>
 
                     {/* Sub-headline - Phantom Reveal */}
@@ -50,13 +51,36 @@ const HeroSection = () => {
                         {[
                             { label: "1,200 Shops Lost", icon: <Building2 className="w-4 h-4 text-white/90" /> },
                             { label: "Wholesale Market Support", icon: <Users className="w-4 h-4 text-white/90" /> },
-                            { label: "Zero Admin Fees", icon: <ShieldCheck className="w-4 h-4 text-white/90" /> },
+                            { label: "Direct Bank Transfer", icon: <ShieldCheck className="w-4 h-4 text-white/90" /> },
                         ].map((item, i) => (
                             <div key={i} className="flex items-center gap-3 px-4 py-3 border border-white/10 rounded-sm bg-transparent hover:bg-white/5 transition-colors cursor-default">
                                 {item.icon}
                                 <span className="text-xs font-sans font-medium text-white/80 uppercase tracking-widest">{item.label}</span>
                             </div>
                         ))}
+                    </div>
+
+                    {/* CTAs - Direct Support */}
+                    <div className="flex flex-col animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-700">
+                        <div className="flex flex-col sm:flex-row items-center gap-4 mb-3">
+                            <button
+                                onClick={() => navigate('/relief')}
+                                className="w-full sm:w-auto px-8 py-4 bg-[#c96442] text-white font-sans font-semibold text-sm uppercase tracking-widest rounded-md shadow-lg hover:bg-[#b05536] transition-all duration-300 hover:-translate-y-0.5 flex items-center justify-center gap-2"
+                            >
+                                <Heart className="w-4 h-4 fill-current" />
+                                <span>Sponsor a Family</span>
+                            </button>
+                            <button
+                                onClick={() => navigate('/directory')}
+                                className="w-full sm:w-auto px-8 py-4 bg-transparent border border-white/30 text-white font-sans font-semibold text-sm uppercase tracking-widest rounded-md hover:bg-white/5 hover:border-white/60 transition-all duration-300 flex items-center justify-center gap-2"
+                            >
+                                <span>View Verified List</span>
+                            </button>
+                        </div>
+                        {/* Context Caption */}
+                        <p className="text-white/50 text-[10px] uppercase tracking-wider font-medium pl-1">
+                            100% of funds go directly to shopkeepers' bank accounts.
+                        </p>
                     </div>
 
                 </div>
@@ -72,7 +96,7 @@ const HeroSection = () => {
                 </div>
             </div>
 
-            {/* Torn Paper Edge (Bottom) */}
+            {/* Torn Paper Edge (Bottom) - Violent Rip */}
             <div className="absolute bottom-0 left-0 w-full z-20 translate-y-[2px]">
                 <TornEdge />
             </div>
