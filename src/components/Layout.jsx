@@ -30,7 +30,9 @@ const Layout = () => {
 
     // Header Styles Calculation
     // Navbar Styles - International Aid / Dark Theme
-    const headerBg = 'bg-black/10 backdrop-blur-md border-b border-white/10';
+    // bg-[#1a1915]/80 = Dark Charcoal 80%
+    const headerBg = 'bg-[#1a1915]/80 backdrop-blur-[12px] border-b border-white/10 shadow-lg';
+    // Text is always white-ish on dark header
     const headerTextColor = 'text-white/90 hover:text-white transition-colors';
 
 

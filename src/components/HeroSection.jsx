@@ -20,7 +20,7 @@ const HeroSection = () => {
             <div className="container mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 relative z-10 h-full items-center">
 
                 {/* CONTENT (Left) */}
-                <div className="flex flex-col justify-center py-20">
+                <div className="flex flex-col justify-center pt-32 pb-20">
 
                     {/* Location Badge - Subtle Stamp Style */}
                     <div className="inline-flex items-center gap-2 self-start mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700 select-none">
