@@ -2,6 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import { MapPin, Store, Heart, ArrowRight } from 'lucide-react';
 import { TextReveal } from './ui/text-reveal';
+import { Marquee } from './ui/marquee';
 
 const HeroSection = () => {
     const navigate = useNavigate();
@@ -9,14 +10,19 @@ const HeroSection = () => {
     return (
         <section className="relative min-h-screen w-full bg-[#1a1915] overflow-hidden flex flex-col justify-center">
 
-            {/* MOBILE ONLY BACKGROUND IMAGE (Faint) */}
+            {/* FILM GRAIN OVERLAY */}
+            <div className="absolute inset-0 pointer-events-none z-50 opacity-[0.07] mix-blend-overlay"
+                style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
+            />
+
+            {/* MOBILE ONLY BACKGROUND IMAGE (Enhanced) */}
             <div className="absolute inset-0 z-0 lg:hidden pointer-events-none">
                 <img
                     src="/hero-before.webp"
                     alt="Gul Plaza Tragedy"
-                    className="w-full h-full object-cover opacity-20 grayscale-[20%] contrast-125"
+                    className="w-full h-full object-cover opacity-40 grayscale-[20%] contrast-125"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1a1915] via-[#1a1915]/80 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#1a1915]/60 to-[#1a1915]" />
             </div>
 
             {/* DESKTOP WATERMARK - Massive & Faint (Hidden on Mobile) */}
@@ -40,7 +46,7 @@ const HeroSection = () => {
                     </div>
 
                     {/* Headline - "Big Brand" Look (Scaled for Mobile) */}
-                    <h1 className="font-serif text-5xl md:text-8xl leading-[0.9] md:leading-[0.85] tracking-tight mb-6 md:mb-8">
+                    <h1 className="font-serif text-5xl md:text-8xl leading-[0.9] md:leading-[0.85] tracking-tight mb-6 md:mb-8 text-shadow-lg md:text-shadow-none">
                         <span className="text-[#faf9f5] block">GUL PLAZA</span>
                         {/* RELIEF: Upright, Extra Bold, Tracking-widest */}
                         <span className="text-[var(--color-terracotta)] block font-extrabold not-italic tracking-wider">RELIEF</span>
@@ -50,7 +56,7 @@ const HeroSection = () => {
                     <div className="min-h-[6rem] md:min-h-[5rem] mb-8 md:mb-12">
                         <TextReveal
                             text="For 30 years, Gul Plaza was the wholesale heart of Karachi. On Jan 17th, fire took 1,200 shops. Help us rebuild the hub of our economy."
-                            className="font-sans font-light text-base md:text-xl text-white/80 leading-relaxed max-w-lg"
+                            className="font-sans font-light text-base md:text-xl text-white/90 md:text-white/80 leading-relaxed max-w-lg shadow-black drop-shadow-md md:drop-shadow-none"
                             delay={300}
                         />
                     </div>
@@ -100,6 +106,21 @@ const HeroSection = () => {
                     />
                     <div className="absolute inset-0 bg-gradient-to-l from-[#1a1915] via-transparent to-transparent" />
                 </div>
+            </div>
+
+            {/* LIVE TICKER (Bottom) */}
+            <div className="absolute bottom-0 left-0 w-full z-20 pb-2">
+                <Marquee className="text-white/50 text-[10px] md:text-xs uppercase tracking-widest font-medium"
+                    items={[
+                        "1,200 Shops Destroyed",
+                        "•",
+                        "Verified Victims List",
+                        "•",
+                        "100% Direct Transfer",
+                        "•",
+                        "Rebuilding Karachi Economy"
+                    ]}
+                />
             </div>
 
         </section>
