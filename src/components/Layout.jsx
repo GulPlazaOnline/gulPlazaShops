@@ -31,16 +31,16 @@ const Layout = () => {
     // Header Styles Calculation
     const headerBg = isHome && !isScrolled
         ? 'bg-transparent border-transparent'
-        : 'bg-surface/95 dark:bg-surface-dark/95 backdrop-blur-md border-gray-200 dark:border-gray-800 shadow-sm border-b';
+        : 'bg-surface/95 backdrop-blur-md border-gray-200 shadow-sm border-b';
 
     const headerTextColor = isHome && !isScrolled
         ? 'text-white'
-        : 'text-charcoal dark:text-white';
+        : 'text-charcoal';
 
     const logoBg = isHome && !isScrolled ? 'bg-white text-charcoal' : 'bg-commerce text-white';
 
     return (
-        <div className="min-h-screen bg-surface dark:bg-surface-dark transition-colors duration-200 font-sans text-charcoal dark:text-gray-100 flex flex-col relative overflow-x-hidden">
+        <div className="min-h-screen bg-surface transition-colors duration-200 font-sans text-charcoal flex flex-col relative overflow-x-hidden">
             {/* Texture Overlay */}
             <div className="grain-overlay" aria-hidden="true" />
 
@@ -70,7 +70,7 @@ const Layout = () => {
                                     to="/auth"
                                     className={`px-5 py-2.5 text-sm font-bold border rounded-full transition-all duration-300 ${isHome && !isScrolled
                                         ? 'text-white border-white/30 hover:bg-white hover:text-charcoal'
-                                        : 'text-charcoal dark:text-white border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800'
+                                        : 'text-charcoal border-gray-300 hover:bg-gray-100'
                                         }`}
                                 >
                                     Sign In
@@ -87,17 +87,17 @@ const Layout = () => {
             </main>
 
             {/* Footer */}
-            <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 mt-auto relative z-10">
+            <footer className="bg-card border-t border-border mt-auto relative z-10">
                 <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
                     <div className="flex flex-col sm:flex-row justify-between items-center gap-6">
                         <p className="text-sm text-muted">
                             © {new Date().getFullYear()} Gul Plaza Relief. Built with hope.
                         </p>
                         <div className="flex items-center gap-8 text-sm text-muted">
-                            <a href="#" className="hover:text-charcoal dark:hover:text-white transition-colors">
+                            <a href="#" className="hover:text-charcoal transition-colors">
                                 Report an Issue
                             </a>
-                            <a href="#" className="hover:text-charcoal dark:hover:text-white transition-colors">
+                            <a href="#" className="hover:text-charcoal transition-colors">
                                 Verify a Profile
                             </a>
                         </div>

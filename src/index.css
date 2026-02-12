@@ -1,12 +1,9 @@
 @import "tailwindcss";
 
-/* Enable class-based dark mode for Tailwind v4 */
-@variant dark (&:where(.dark, .dark *));
-
 /* Google Fonts - Earthy / Bookish */
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
 
-/* ── Design Tokens ── */
+/* ── Design Tokens (Light Only) ── */
 :root {
   --card: #fffcf5;
   --ring: #a67c52;
@@ -52,49 +49,11 @@
   --sidebar-primary-foreground: #ffffff;
 }
 
-.dark {
-  --card: #3a322c;
-  --ring: #c0a080;
-  --input: #4a4039;
-  --muted: #3a322c;
-  --accent: #59493e;
-  --border: #4a4039;
-  --radius: 0.25rem;
-  --chart-1: #c0a080;
-  --chart-2: #b3906f;
-  --chart-3: #a67c52;
-  --chart-4: #8d6e4c;
-  --chart-5: #735a3a;
-  --popover: #3a322c;
-  --primary: #c0a080;
-  --sidebar: #2d2621;
-  --secondary: #4a4039;
-  --background: #2d2621;
-  --foreground: #ece5d8;
-  --destructive: #b54a35;
-  --sidebar-ring: #c0a080;
-  --sidebar-accent: #59493e;
-  --sidebar-border: #4a4039;
-  --card-foreground: #ece5d8;
-  --sidebar-primary: #c0a080;
-  --muted-foreground: #c5bcac;
-  --accent-foreground: #ece5d8;
-  --popover-foreground: #ece5d8;
-  --primary-foreground: #2d2621;
-  --sidebar-foreground: #ece5d8;
-  --secondary-foreground: #ece5d8;
-  --destructive-foreground: #ffffff;
-  --sidebar-accent-foreground: #ece5d8;
-  --sidebar-primary-foreground: #2d2621;
-}
-
 @theme inline {
-  /* Fonts (for Tailwind font-* utilities) */
   --font-sans: 'Libre Baskerville', serif;
   --font-serif: 'Lora', serif;
   --font-mono: 'IBM Plex Mono', monospace;
 
-  /* Color tokens — exact user spec */
   --color-card: var(--card);
   --color-ring: var(--ring);
   --color-input: var(--input);
@@ -138,27 +97,22 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
 
-  /* App-specific aliases (Layout.jsx compatibility) */
-  --color-surface: var(--background);
-  --color-surface-dark: var(--background);
-  --color-charcoal: var(--foreground);
-  --color-muted-dark: var(--muted-foreground);
+  /* App aliases for Layout.jsx */
+  --color-surface: #f5f1e6;
+  --color-surface-dark: #2d2621;
+  --color-charcoal: #4a3f35;
+  --color-muted-dark: #c5bcac;
 
-  /* Action Colors */
-  --color-commerce: var(--primary);
+  --color-commerce: #a67c52;
   --color-commerce-hover: #8d6e4c;
-  --color-relief: var(--destructive);
+  --color-relief: #b54a35;
   --color-relief-hover: #993d2c;
   --color-alert: #c0a060;
   --color-alert-hover: #a68a50;
-
-  /* Status Colors */
   --color-status-verified: #6b8f71;
   --color-status-pending: #c0a060;
-  --color-status-danger: var(--destructive);
-
-  /* Legacy */
-  --color-primary-600: var(--primary);
+  --color-status-danger: #b54a35;
+  --color-primary-600: #a67c52;
   --color-primary-700: #8d6e4c;
 }
 
@@ -181,7 +135,6 @@
 
 /* ── Utility Classes ── */
 @layer components {
-
   .grain-overlay {
     position: fixed;
     top: 0;
@@ -218,19 +171,19 @@
   }
 
   .status-verified {
-    @apply bg-green-50 text-green-700 border border-green-100 dark:bg-green-900/20 dark:text-green-300 dark:border-green-800/30;
+    @apply bg-green-50 text-green-700 border border-green-100;
   }
 
   .status-pending {
-    @apply bg-amber-50 text-amber-700 border border-amber-100 dark:bg-amber-900/20 dark:text-amber-300 dark:border-amber-800/30;
+    @apply bg-amber-50 text-amber-700 border border-amber-100;
   }
 
   .status-deceased {
-    @apply bg-gray-100 text-gray-600 border border-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700;
+    @apply bg-gray-100 text-gray-600 border border-gray-200;
   }
 
   .status-severe {
-    @apply bg-rose-50 text-rose-700 border border-rose-100 dark:bg-rose-900/20 dark:text-rose-300 dark:border-rose-800/30;
+    @apply bg-rose-50 text-rose-700 border border-rose-100;
   }
 
   .mono {
