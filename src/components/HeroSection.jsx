@@ -1,82 +1,73 @@
 // src/components/HeroSection.jsx
 import { useNavigate } from 'react-router-dom';
-import { RevealWaveImage } from './ui/reveal-wave-image';
-import { Typewriter } from './ui/typewriter'; // Import Typewriter
+import { ShieldCheck, Users, Ban } from 'lucide-react'; // Installing icons if needed, or use text
 
 const HeroSection = () => {
     const navigate = useNavigate();
 
     return (
-        <section className="relative h-screen w-full flex flex-col bg-charcoal overflow-hidden">
-            {/* ... (Hero Image Section remains unchanged) ... */}
-            <div className="absolute inset-0 z-0">
-                <RevealWaveImage
-                    src="/hero-before.webp"
-                    waveSpeed={0.2}
-                    waveFrequency={0.7}
-                    waveAmplitude={0.5}
-                    revealRadius={0.4}
-                    revealSoftness={0.8}
-                    pixelSize={2}
-                    mouseRadius={0.3}
-                    className="h-full w-full"
-                />
+        <section className="relative min-h-screen w-full bg-[#1a1915] overflow-hidden grid grid-cols-1 lg:grid-cols-2">
 
-                {/* Cinematic Gradient Overlays */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/30 pointer-events-none z-10" />
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.6)_100%)] pointer-events-none z-10" />
-            </div>
-
-            {/* Main Hero Content - Centered & Monumental */}
-            <div className="flex-1 flex flex-col justify-end items-center px-6 md:px-12 pb-24 relative z-20 pointer-events-none">
-                <div className="max-w-4xl mx-auto w-full text-center pointer-events-auto">
-                    {/* Location Badge */}
-                    <div className="flex flex-col items-center gap-4 mb-6 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-                        <div className="h-12 w-px bg-primary/60" />
-                        <span className="text-primary tracking-[0.4em] uppercase text-xs font-mono">Karachi, Pakistan</span>
-                    </div>
-
-                    {/* Main Headline - Monumental */}
-                    <h1 className="text-8xl md:text-[10rem] leading-[0.85] font-serif font-medium text-white tracking-tight mb-8 drop-shadow-2xl animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200 fill-mode-forwards">
-                        Gul Plaza
+            {/* CONTENT (Left) */}
+            <div className="relative z-20 flex flex-col justify-center px-6 md:px-12 lg:px-20 py-24 order-2 lg:order-1">
+                <div className="max-w-xl">
+                    {/* Headline */}
+                    <h1 className="font-serif text-6xl md:text-8xl text-[#e9e6dc] leading-[0.9] tracking-tight mb-8 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+                        From Ashes <br />
+                        <span className="italic">to Hope.</span>
                     </h1>
 
-                    {/* Context Paragraph with Typewriter */}
-                    <div className="flex flex-col items-center gap-10 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500 fill-mode-forwards">
-                        <div className="max-w-2xl min-h-[4rem] text-xl md:text-2xl text-white/90 font-sans font-light leading-relaxed">
-                            <Typewriter
-                                words={["For decades, this was the heart of wholesale. On January 17, 2026, silence fell. Now, we rebuild together."]}
-                                loop={false}
-                                speed={40}
-                                delayBetweenWords={1000}
-                                cursor={true}
-                            />
-                        </div>
+                    {/* Sub-headline */}
+                    <p className="font-sans font-light text-lg md:text-xl text-white/80 leading-relaxed max-w-lg mb-10 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
+                        Gul Plaza was the heart of Karachi's wholesale. On January 17th, we lost it. <br />
+                        <span className="text-[#e9e6dc] font-medium block mt-2">Help 1,200 families rebuild their livelihoods today.</span>
+                    </p>
 
-                        {/* CTA Buttons */}
-                        <div className="flex flex-col sm:flex-row items-center gap-6 w-full sm:w-auto">
-                            <button
-                                onClick={() => navigate('/directory')}
-                                className="px-10 py-5 bg-primary text-primary-foreground font-serif text-lg tracking-wide rounded-full transition-all duration-300 hover:bg-primary-hover hover:scale-105 shadow-[0_0_40px_-10px_rgba(166,124,82,0.4)] flex items-center justify-center gap-3 cursor-pointer"
-                            >
-                                <span className="uppercase font-bold text-sm">Support Survivors</span>
-                            </button>
-                            <button
-                                onClick={() => navigate('/relief')}
-                                className="px-10 py-5 bg-transparent border border-white/20 text-white font-serif text-lg tracking-wide rounded-full transition-all duration-300 hover:bg-white/10 hover:border-white/40 flex items-center justify-center gap-3 cursor-pointer backdrop-blur-sm"
-                            >
-                                <span className="uppercase font-bold text-sm">Donate Aid</span>
-                            </button>
-                        </div>
+                    {/* Trust Cards */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
+                        {[
+                            { label: "100% Direct Impact", icon: "💎" },
+                            { label: "Verified Victims List", icon: "✅" },
+                            { label: "Zero Admin Fees", icon: "🛡️" },
+                        ].map((item, i) => (
+                            <div key={i} className="bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-3 flex flex-col gap-1 hover:bg-white/10 transition-colors">
+                                <span className="text-lg">{item.icon}</span>
+                                <span className="text-xs font-sans text-white/90 uppercase tracking-wider">{item.label}</span>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* CTAs */}
+                    <div className="flex flex-col sm:flex-row items-center gap-5 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500">
+                        <button
+                            onClick={() => navigate('/relief')}
+                            className="w-full sm:w-auto px-8 py-4 bg-[#c96442] text-white font-sans font-medium text-lg rounded-lg shadow-[0_0_30px_rgba(201,100,66,0.3)] hover:shadow-[0_0_50px_rgba(201,100,66,0.5)] hover:bg-[#b05536] transition-all duration-300 hover:-translate-y-1"
+                        >
+                            Donate Now
+                        </button>
+                        <button
+                            onClick={() => navigate('/directory')}
+                            className="w-full sm:w-auto px-8 py-4 bg-transparent border border-white/30 text-white font-sans font-medium text-lg rounded-lg hover:bg-white/10 hover:border-white/50 transition-all duration-300"
+                        >
+                            Read Their Stories
+                        </button>
                     </div>
                 </div>
             </div>
 
-            {/* Scroll Indicator - Unchanged */}
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce opacity-40 z-20">
-                <span className="text-white/50 text-[10px] tracking-widest uppercase mb-2 block text-center">Scroll</span>
-                <div className="w-px h-12 bg-gradient-to-b from-white to-transparent mx-auto" />
+            {/* VISUAL (Right) */}
+            <div className="relative h-[50vh] lg:h-auto w-full order-1 lg:order-2">
+                <div className="absolute inset-0">
+                    <img
+                        src="/hero-before.webp"
+                        alt="Gul Plaza Tragedy"
+                        className="w-full h-full object-cover [mask-image:linear-gradient(to_top,transparent,black_30%)] lg:[mask-image:linear-gradient(to_right,transparent,black_20%,black)]"
+                    />
+                    {/* Dark Overlay for tinting */}
+                    <div className="absolute inset-0 bg-[#1a1915]/30 mix-blend-multiply" />
+                </div>
             </div>
+
         </section>
     );
 };

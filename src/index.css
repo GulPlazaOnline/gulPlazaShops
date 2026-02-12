@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* Google Fonts - Earthy / Bookish */
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400..700;1,400..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
 /* ── Design Tokens (Light Only) ── */
 :root {
@@ -51,7 +51,13 @@
 
 @theme inline {
   --font-sans: 'Libre Baskerville', serif;
-  --font-serif: 'Lora', serif;
+  --font-serif: 'Playfair Display', serif;
+  --font-body: 'Libre Baskerville', serif;
+
+  /* Emotional Impact Palette */
+  --color-terracotta: #c96442;
+  --color-charcoal-dark: #1a1915;
+  --color-warm-white: #e9e6dc;
   --font-mono: 'IBM Plex Mono', monospace;
 
   --color-card: var(--card);
