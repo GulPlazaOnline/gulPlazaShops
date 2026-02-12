@@ -1,6 +1,6 @@
 // src/components/HeroSection.jsx
 import { useNavigate } from 'react-router-dom';
-import { MapPin, Store, Heart, CheckCircle2 } from 'lucide-react';
+import { MapPin, Store, Heart, ArrowRight } from 'lucide-react';
 import { TextReveal } from './ui/text-reveal';
 import { TornEdge } from './ui/torn-edge';
 
@@ -46,40 +46,37 @@ const HeroSection = () => {
                         />
                     </div>
 
-                    {/* DUAL PATH ACTION AREA */}
-                    <div className="flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500 max-w-lg">
+                    {/* ACTION AREA - Buttons (Professional) */}
+                    <div className="flex flex-col items-start gap-4 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500">
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            {/* Option A: Business Path */}
-                            <button
-                                onClick={() => navigate('/directory')}
-                                className="group flex flex-col items-start p-5 rounded-lg border border-[var(--color-terracotta)]/30 bg-white/5 hover:bg-white/10 transition-all duration-300 hover:-translate-y-1 text-left"
-                            >
-                                <div className="p-2 rounded-full bg-white/5 mb-3 group-hover:bg-[var(--color-terracotta)] group-hover:text-white transition-colors text-[var(--color-terracotta)]">
-                                    <Store className="w-5 h-5" />
-                                </div>
-                                <span className="text-white font-serif font-bold text-lg leading-tight mb-1">Rebuild a Shop</span>
-                                <span className="text-white/60 text-xs font-sans leading-relaxed">Help small business owners restock and restart.</span>
-                            </button>
-
-                            {/* Option B: Family Path (Primary) */}
+                        <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                            {/* Button 1: Support a Family (Humanitarian) */}
                             <button
                                 onClick={() => navigate('/relief')}
-                                className="group flex flex-col items-start p-5 rounded-lg bg-[var(--color-terracotta)] hover:bg-[#b05536] transition-all duration-300 hover:-translate-y-1 text-left shadow-[0_0_30px_rgba(201,100,66,0.3)]"
+                                className="group flex items-center justify-center gap-3 px-8 py-4 rounded-md bg-[var(--color-terracotta)] hover:bg-[#b05536] text-white transition-all duration-300 hover:-translate-y-0.5 shadow-[0_0_30px_rgba(201,100,66,0.2)] w-full sm:w-auto"
                             >
-                                <div className="p-2 rounded-full bg-white/20 mb-3 text-white">
-                                    <Heart className="w-5 h-5 fill-current" />
-                                </div>
-                                <span className="text-white font-serif font-bold text-lg leading-tight mb-1">Support a Family</span>
-                                <span className="text-white/90 text-xs font-sans leading-relaxed">Provide rations & rent for those who lost breadwinners.</span>
+                                <Heart className="w-5 h-5 fill-current" />
+                                <span className="font-sans font-bold text-sm uppercase tracking-widest">Support a Family</span>
+                            </button>
+
+                            {/* Button 2: Rebuild a Shop (Business) */}
+                            <button
+                                onClick={() => navigate('/directory')}
+                                className="group flex items-center justify-center gap-3 px-8 py-4 rounded-md bg-transparent border border-white/30 hover:bg-white/10 text-white transition-all duration-300 w-full sm:w-auto"
+                            >
+                                <Store className="w-5 h-5" />
+                                <span className="font-sans font-bold text-sm uppercase tracking-widest">Rebuild a Shop</span>
                             </button>
                         </div>
 
-                        {/* Trust Signal */}
-                        <div className="flex items-center justify-center gap-2 text-white/40 text-[10px] uppercase tracking-wider font-medium">
-                            <CheckCircle2 className="w-3 h-3 text-[var(--color-terracotta)]" />
-                            <span>100% Direct Bank Transfer • Verified List</span>
-                        </div>
+                        {/* Verified Link */}
+                        <button
+                            onClick={() => navigate('/directory')}
+                            className="group flex items-center gap-2 text-white/50 text-xs font-medium hover:text-[var(--color-terracotta)] transition-colors mt-2 pl-1"
+                        >
+                            <span className="underline underline-offset-4 decoration-white/30 group-hover:decoration-[var(--color-terracotta)]">View Verified Victims List</span>
+                            <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                        </button>
 
                     </div>
 
