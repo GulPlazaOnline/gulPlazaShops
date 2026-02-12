@@ -2,7 +2,6 @@
 import { useNavigate } from 'react-router-dom';
 import { MapPin, Store, Heart, ArrowRight } from 'lucide-react';
 import { TextReveal } from './ui/text-reveal';
-import { TornEdge } from './ui/torn-edge';
 
 const HeroSection = () => {
     const navigate = useNavigate();
@@ -93,10 +92,8 @@ const HeroSection = () => {
                 </div>
             </div>
 
-            {/* Torn Paper Edge (Bottom) - Violent Rip */}
-            <div className="absolute bottom-0 left-0 w-full z-20 translate-y-[2px]">
-                <TornEdge />
-            </div>
+            {/* Clean Bottom - No Torn Edge */}
+            {/* <div className="absolute bottom-0 left-0 w-full z-20 h-2 bg-gradient-to-t from-[#1a1915] to-transparent opacity-50" /> */}
 
         </section>
     );
