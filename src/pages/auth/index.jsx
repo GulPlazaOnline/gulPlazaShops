@@ -58,18 +58,7 @@ const s = {
         fontFamily: "'Outfit', sans-serif",
         position: 'relative',
     },
-    card: {
-        width: '100%',
-        maxWidth: '420px',
-        background: 'var(--card)',
-        color: 'var(--card-foreground)',
-        border: '1px solid var(--border)',
-        borderRadius: '1.5rem',
-        padding: '2.5rem 2rem 2rem',
-        boxShadow: '0 25px 50px -12px rgba(0,0,0,0.08)',
-        position: 'relative',
-        zIndex: 10,
-    },
+    /* Card styles moved to .auth-card class */
     logo: {
         width: 52, height: 52,
         background: 'var(--foreground)',
@@ -214,9 +203,30 @@ const animCSS = `
 }
 .auth-enter { animation: authFadeUp 0.5s cubic-bezier(0.16,1,0.3,1) both; }
 .auth-enter-delay { animation: authFadeUp 0.5s cubic-bezier(0.16,1,0.3,1) 0.12s both; }
-.auth-btn:hover { opacity: 0.88; transform: translateY(-1px); }
-.auth-btn:active { transform: translateY(0) scale(0.99); }
-.auth-input:focus { border-color: var(--foreground) !important; box-shadow: 0 0 0 2px color-mix(in srgb, var(--foreground) 12%, transparent); }
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid color-mix(in srgb, var(--border), var(--foreground) 10%);
+  border-radius: 1.5rem;
+  padding: 2.5rem 2rem 2rem;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.08);
+  position: relative;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+.auth-card:hover {
+  border-color: color-mix(in srgb, var(--border), var(--foreground) 20%);
+  box-shadow: 0 30px 60px -12px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+}
+
+.auth-btn { transition: all 0.2s ease; }
+.auth-btn:hover { opacity: 0.92; transform: translateY(-1px); }
+.auth-btn:active { transform: translateY(0) scale(0.98); }
+.auth-input:focus { border-color: var(--foreground) !important; box-shadow: 0 0 0 2px color-mix(in srgb, var(--foreground) 10%, transparent); }
 `;
 
 const Auth = () => {
@@ -273,7 +283,7 @@ const Auth = () => {
         return (
             <div style={s.page}>
                 <style>{animCSS}</style>
-                <div style={s.card} className="auth-enter">
+                <div className="auth-card auth-enter">
                     {/* Logo */}
                     <div style={s.logo}>GP</div>
 
@@ -351,7 +361,7 @@ const Auth = () => {
         <div style={s.page}>
             <style>{animCSS}</style>
             <div style={{ width: '100%', maxWidth: '420px' }}>
-                <div style={s.card} className={mounted ? 'auth-enter' : ''}>
+                <div className={`auth-card ${mounted ? 'auth-enter' : ''}`}>
                     {/* Logo */}
                     <div style={s.logo}>GP</div>
 
