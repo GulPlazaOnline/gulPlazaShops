@@ -29,13 +29,10 @@ const Layout = () => {
     }, []);
 
     // Header Styles Calculation
-    const headerBg = isHome && !isScrolled
-        ? 'bg-transparent border-transparent'
-        : 'bg-surface/95 backdrop-blur-md border-gray-200 shadow-sm border-b';
+    // Navbar Styles - International Aid / Dark Theme
+    const headerBg = 'bg-black/10 backdrop-blur-md border-b border-white/10';
+    const headerTextColor = 'text-white/90 hover:text-white transition-colors';
 
-    const headerTextColor = isHome && !isScrolled
-        ? 'text-white'
-        : 'text-charcoal';
 
     const logoBg = isHome && !isScrolled ? 'bg-white text-charcoal' : 'bg-commerce text-white';
 
