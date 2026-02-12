@@ -1,13 +1,14 @@
 // src/components/HeroSection.jsx
 import { useNavigate } from 'react-router-dom';
 import { RevealWaveImage } from './ui/reveal-wave-image';
+import { Typewriter } from './ui/typewriter'; // Import Typewriter
 
 const HeroSection = () => {
     const navigate = useNavigate();
 
     return (
         <section className="relative h-screen w-full flex flex-col bg-charcoal overflow-hidden">
-            {/* HERO IMAGE - Full Bleed with RevealWave Effect */}
+            {/* ... (Hero Image Section remains unchanged) ... */}
             <div className="absolute inset-0 z-0">
                 <RevealWaveImage
                     src="/hero-before.webp"
@@ -40,12 +41,17 @@ const HeroSection = () => {
                         Gul Plaza
                     </h1>
 
-                    {/* Context Paragraph */}
+                    {/* Context Paragraph with Typewriter */}
                     <div className="flex flex-col items-center gap-10 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500 fill-mode-forwards">
-                        <p className="max-w-xl text-xl md:text-2xl text-white/90 font-sans font-light leading-relaxed">
-                            For decades, the heart of wholesale. <br />
-                            <span className="text-white/60 text-lg">Silence fell on Jan 17. Now, we rebuild.</span>
-                        </p>
+                        <div className="max-w-2xl min-h-[4rem] text-xl md:text-2xl text-white/90 font-sans font-light leading-relaxed">
+                            <Typewriter
+                                words={["For decades, this was the heart of wholesale. On January 17, 2026, silence fell. Now, we rebuild together."]}
+                                loop={false}
+                                speed={40}
+                                delayBetweenWords={1000}
+                                cursor={true}
+                            />
+                        </div>
 
                         {/* CTA Buttons */}
                         <div className="flex flex-col sm:flex-row items-center gap-6 w-full sm:w-auto">
@@ -66,7 +72,7 @@ const HeroSection = () => {
                 </div>
             </div>
 
-            {/* Scroll Indicator */}
+            {/* Scroll Indicator - Unchanged */}
             <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce opacity-40 z-20">
                 <span className="text-white/50 text-[10px] tracking-widest uppercase mb-2 block text-center">Scroll</span>
                 <div className="w-px h-12 bg-gradient-to-b from-white to-transparent mx-auto" />
